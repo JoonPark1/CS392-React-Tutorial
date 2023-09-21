@@ -6,6 +6,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Banner from "./components/Banner";
 import CourseList from "./components/CourseList"; 
+import CourseSelector from "./components/CourseSelector"; 
 
 const queryClient = new QueryClient(); 
 
@@ -17,15 +18,28 @@ const Main = () => {
   return (
     <div className="container">
       <Banner title={data.title} /> 
-      <CourseList courses={data.courses}/> 
+      <CoursePage courses = {data.courses}/> 
     </div>
   )
+}
+
+const CoursePage = ({courses}) => {
+  //initialize state here! 
+  const [term, setTerm] = useState("Fall");
+
+  return (
+    <div className="container">
+      <CourseSelector checkedTerm = {term} setTerm={setTerm}/> 
+      <CourseList courses = {courses} term = {term}/> 
+    </div>
+  ); 
+
 }
 
 const App = () => {
   return (
     <QueryClientProvider client = {queryClient}>
-      <Main /> 
+      <Main />  
     </QueryClientProvider>
   );
 };
