@@ -19,7 +19,7 @@ const Modal = ({ children, open, close }) => {
                         </div>
                         <div className="modal-body">
                             {children.length > 0 && <ul>
-                                {children.map(c => <li>{c}</li>)}
+                                {children.map((c, idx) => <li key={idx}>{c}</li>)}
                             </ul>}
                             {children.length === 0 && <p>No courses selected yet! If you want to select course, click on the course card!</p>}
                         </div>

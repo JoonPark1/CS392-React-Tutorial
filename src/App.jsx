@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,7 +11,7 @@ const queryClient = new QueryClient();
 const App = () => {
   return (
     <QueryClientProvider client = {queryClient}>
-      <Main />  
+      <Main /> 
     </QueryClientProvider>
   );
 };

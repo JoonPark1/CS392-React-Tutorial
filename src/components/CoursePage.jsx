@@ -10,7 +10,7 @@ const CoursePage = ({courses}) => {
     const [selected, setSelected] = useState([]); 
     //another state to keep track of open state of pop-up window! 
     const [open, setOpen] = useState(false); 
-    console.log(selected); 
+    //console.log(selected); 
     //handlers for popup! 
     const openModal = () => setOpen(true);
     const closeModal = () => setOpen(false); 

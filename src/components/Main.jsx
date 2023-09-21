@@ -1,6 +1,8 @@
 import Banner from "./Banner";
 import CoursePage from "./CoursePage"
 import { useJsonQuery } from '../utilities/fetch'; 
+import { BrowserRouter, Routes, Route} from "react-router-dom";
+import Form from "./Form";
 
 const Main = () => {
    const [data, isLoading, error] = useJsonQuery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
@@ -9,8 +11,15 @@ const Main = () => {
   if(!data)return<h1>No course data found!</h1>
   return (
     <div className="container">
-      <Banner title={data.title} /> 
-      <CoursePage courses = {data.courses}/> 
+      <BrowserRouter>
+        <Routes>
+          <Route path = "/" element={<>
+                                    <Banner title={data.title} /> 
+                                    <CoursePage courses = {data.courses}/> 
+                                    </>} /> 
+          <Route path="/form/:id" element = {<Form />}/> 
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }

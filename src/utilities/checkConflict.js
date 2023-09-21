@@ -9,12 +9,12 @@ const checkOverlap = (t1, t2) => {
     const [t2Days, t2Times] = t2.split(" ");
     //call helper function here to get low to high range of days!
     const t1DayVals = getAllDays(t1Days);
-    console.log(`t1DayVals: ${t1DayVals}`)
+    //console.log(`t1DayVals: ${t1DayVals}`)
     const t2DayVals = getAllDays(t2Days);
-    console.log(`t2DayVals: ${t2DayVals}`);
+    //console.log(`t2DayVals: ${t2DayVals}`);
 
     const hasOverlappingDay = checkOverlappingDays(t1DayVals, t2DayVals); 
-    console.log(`hasOverlappingDay: ${hasOverlappingDay}`)
+    //console.log(`hasOverlappingDay: ${hasOverlappingDay}`)
     //check there is at least one day overlap! 
     if(hasOverlappingDay){
         //then check if times overlap! 
@@ -25,22 +25,22 @@ const checkOverlap = (t1, t2) => {
         const [highT2Hr, highT2Min] = highT2Time.split(":");
         const [lowT2Hr, lowT2Min] = lowT2Time.split(":");
         const lowT1Int = parseInt(lowT1Hr + lowT1Min);
-        console.log(`lowT1Int: ${lowT1Int}`)
+        //console.log(`lowT1Int: ${lowT1Int}`)
         const lowT2Int = parseInt(lowT2Hr + lowT2Min);
-        console.log(`lowT2Int: ${lowT2Int}`)
+        //console.log(`lowT2Int: ${lowT2Int}`)
         const highT1Int = parseInt(highT1Hr + highT1Min);
-        console.log(`highT1Int: ${highT1Int}`)
+        //console.log(`highT1Int: ${highT1Int}`)
         const highT2Int = parseInt(highT2Hr + highT2Min);
-        console.log(`highT2Int: ${highT2Int}`)
+        //console.log(`highT2Int: ${highT2Int}`)
         //if any of these conditions are true, then there is no time conflict! 
         const check1 = lowT1Int > highT2Int; 
-        console.log("check1: ", check1); 
+        //console.log("check1: ", check1); 
         const check2 = highT1Int < lowT2Int; 
-        console.log(`check2: ${check2}`)
+        //console.log(`check2: ${check2}`)
         const check3 = lowT2Int > highT1Int; 
-        console.log(`check3: ${check3}`)
+        //console.log(`check3: ${check3}`)
         const check4 = highT2Int < lowT1Int; 
-        console.log(`check4: ${check4}`)
+        //console.log(`check4: ${check4}`)
         if(check1 || check2 || check3 || check4){
             return false; 
         }
