@@ -17,7 +17,7 @@ const CourseList = ({courses, term, selected, setSelected}) => {
                 if(course.indexOf(checkfor) == 0) {
                     var isSelected= false; 
                     //unique identifier for course => term concat. w/ the number! 
-                    const uniqueID = courseObj.term + "_" + courseObj.number; 
+                    const uniqueID = term + "_" + courseObj.number + "_" + courseObj.title + "_" + courseObj.meets; 
                     if(selected.indexOf(uniqueID) != -1){
                         isSelected = true; 
                     }

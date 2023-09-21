@@ -4,9 +4,9 @@ const Course = ({term, number, title, meets, isSelected, setSelected}) => {
         console.log("previous state: ", isSelected); 
         //turn off! 
         if(isSelected){
-            setSelected(prev => prev.filter(e => e !== term + "_" + number)); 
+            setSelected(prev => prev.filter(e => e !== term + "_" + number + "_" + title + "_" + meets)); 
         } else {
-            setSelected(prev => [...prev, term + "_" + number])
+            setSelected(prev => [...prev, term + "_" + number + "_" + title + "_" + meets]); 
         }
     }
     return (

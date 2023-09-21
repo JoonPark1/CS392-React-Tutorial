@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Banner from "./components/Banner";
 import CourseList from "./components/CourseList"; 
 import CourseSelector from "./components/CourseSelector"; 
+import Modal from "./components/Modal"; 
 
 const queryClient = new QueryClient(); 
 
@@ -24,17 +25,26 @@ const Main = () => {
 }
 
 const CoursePage = ({courses}) => {
-  console.log("course page rerendered!")
   //initialize state here! 
   const [term, setTerm] = useState("Fall");
-  //another state! 
+  //another state to manage array of selected courses! 
   const [selected, setSelected] = useState([]); 
-  console.log(`selected: ${selected}`)
+  //another state to keep track of open state of pop-up window! 
+  const [open, setOpen] = useState(false); 
+  
+  //handlers for popup! 
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false); 
+
   return (
-    <div className="container">
-      <CourseSelector checkedTerm = {term} setTerm={setTerm}/> 
-      <CourseList setSelected={setSelected} selected = {selected} courses = {courses} term = {term}/> 
-    </div>
+      <div className="container">
+        <Modal open={open} close={closeModal}>{selected}</Modal>
+        <div>
+          <CourseSelector checkedTerm = {term} setTerm={setTerm}/> 
+          <button style={{marginLeft: "300px", margintop: "50px"}}onClick={openModal}>Click here to display list of selected courses!</button>
+        </div>
+        <CourseList setSelected={setSelected} selected = {selected} courses = {courses} term = {term}/> 
+      </div>
   ); 
 
 }
