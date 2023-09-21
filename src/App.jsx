@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Banner from "./components/Banner";
 import CourseList from "./components/CourseList"; 
 
@@ -36,10 +37,10 @@ const schedule = {
 
 const App = () => {
   return (
-    <>
+    <div className="container">
       <Banner title={schedule.title}/>
       <CourseList courses={schedule.courses}/> 
-    </>
+    </div>
   );
 };
 
