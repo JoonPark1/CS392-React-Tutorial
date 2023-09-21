@@ -24,13 +24,16 @@ const Main = () => {
 }
 
 const CoursePage = ({courses}) => {
+  console.log("course page rerendered!")
   //initialize state here! 
   const [term, setTerm] = useState("Fall");
-
+  //another state! 
+  const [selected, setSelected] = useState([]); 
+  console.log(`selected: ${selected}`)
   return (
     <div className="container">
       <CourseSelector checkedTerm = {term} setTerm={setTerm}/> 
-      <CourseList courses = {courses} term = {term}/> 
+      <CourseList setSelected={setSelected} selected = {selected} courses = {courses} term = {term}/> 
     </div>
   ); 
 
