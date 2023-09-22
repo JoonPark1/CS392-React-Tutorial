@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Form from "./Form";
 import {useDbData} from "../utilities/firebase"; 
 
-const Main = ({setUser}) => {
+const Main = ({setUser, setIsAdmin}) => {
   //get the entire data from the root level of JSON hierarchy using the useDbData hook! 
   const [data, error] = useDbData("/"); 
   //console.log(`data: `, data); 
@@ -17,7 +17,7 @@ const Main = ({setUser}) => {
       <BrowserRouter>
         <Routes>
           <Route path = "/" element={<>
-                                    <Banner setUser = {setUser} title={data.title} /> 
+                                    <Banner setIsAdmin = {setIsAdmin} setUser = {setUser} title={data.title} /> 
                                     <CoursePage courses = {data.courses}/> 
                                     </>} /> 
           <Route path="/form/:id" element = {<Form />}/> 

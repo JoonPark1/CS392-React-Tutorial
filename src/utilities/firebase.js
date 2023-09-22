@@ -64,7 +64,7 @@ export const useDbData = (path) => {
 
   //this function displays pop-up window to allow user to log in using their google account! 
   export const signInWithGoogle = () => {
-    console.log("signInWithGoogle function called from firebase.js"); 
+    //console.log("signInWithGoogle function called from firebase.js"); 
     signInWithPopup(getAuth(app), new GoogleAuthProvider()); 
   }
   //helper function called to sign current logged-in user out based on current auth state of Firebase app instance! 
