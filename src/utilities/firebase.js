@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, onValue, ref, update} from "firebase/database";
 import {useEffect, useState, useCallback} from "react"; 
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+
 //import { getDatabase, onValue, ref, update} from 'firebase/database';
 
 const firebaseConfig = {
@@ -56,4 +58,27 @@ export const useDbData = (path) => {
     }, [database, path]);
   
     return [updateData, result];
+  };
+
+  //functions to handle authentication! 
+
+  //this function displays pop-up window to allow user to log in using their google account! 
+  export const signInWithGoogle = () => {
+    console.log("signInWithGoogle function called from firebase.js"); 
+    signInWithPopup(getAuth(app), new GoogleAuthProvider()); 
+  }
+  //helper function called to sign current logged-in user out based on current auth state of Firebase app instance! 
+  export const googleSignOut = () => {
+    signOut(getAuth(app)); 
+  }
+ //special hook that will keep track of latest user state if some user is logged in=> otherwise undefined!
+ //whenever, the auth state changes, it will set the user appropriately. 
+  export const useAuthState = () => {
+    const [user, setUser] = useState();
+    console.log(`latest user: ${user} from useAuthState hook!`)
+    useEffect(() => (
+      onAuthStateChanged(getAuth(app), setUser)
+    ), []);
+  
+    return [user];
   };

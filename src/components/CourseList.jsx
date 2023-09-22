@@ -43,7 +43,7 @@ const CourseList = ({courses, term, selected, setSelected}) => {
                                 meets={courseObj.meets}
                                 isSelected = {isSelected}
                                 setSelected={setSelected}
-                                hasTimeConflict={hasTimeConflict} /> 
+                                hasTimeConflict={hasTimeConflict}/> 
                 }       
             })}
         </div>
