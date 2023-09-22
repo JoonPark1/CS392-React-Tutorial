@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, ref } from "firebase/database";
-import {useEffect, useState} from "react"; 
+import { getDatabase, onValue, ref, update} from "firebase/database";
+import {useEffect, useState, useCallback} from "react"; 
 //import { getDatabase, onValue, ref, update} from 'firebase/database';
 
 const firebaseConfig = {
@@ -20,6 +20,13 @@ const app = initializeApp(firebaseConfig);
 // Initialize Realtime Database and get a reference to the service
 const database = getDatabase(app);
 
+//helper to return useful info regarding the result of DB call! 
+const makeResult = (error) => {
+    const timestamp = Date.now();
+    const message = error?.message || `Updated: ${new Date(timestamp).toLocaleString()}`;
+    return { timestamp, error, message };
+  };
+
 
 //hook to retrieve DB data based on specified path starting from root of DB =>
 //whenever a new path is passed in as arg, we will get the latest snapshot data at that specified new path! 
@@ -36,4 +43,17 @@ export const useDbData = (path) => {
     ), [ path ]);
   
     return [ data, error ];
+  };
+  //another database hook given the path returns array of two things:
+  //updateData => special function that helps to update data at that specified path with the val I pass in when I invoke it!
+  //result => 
+  export const useDbUpdate = (path) => {
+    const [result, setResult] = useState();
+    const updateData = useCallback((value) => {
+      update(ref(database, path), value)
+      .then(() => setResult(makeResult()))
+      .catch((error) => setResult(makeResult(error)))
+    }, [database, path]);
+  
+    return [updateData, result];
   };

@@ -1,5 +1,6 @@
 import {useParams, Link} from "react-router-dom"; 
 import {useState} from "react"; 
+import {useDbUpdate} from "../utilities/firebase"; 
 
 const Form = (props) => {
     //functions to validate input! 
@@ -18,7 +19,7 @@ const Form = (props) => {
             //have to make sure it follows valid format: "some_num_valid_day_chars time-range"
             const regExp = `^(M|Tu|W|Th|F)+ ([0-2][0-9]:[0-5][0-9]-[0-2][0-9]:[0-5][0-9])$`
             const res = meets.match(regExp);
-            console.log(`res: ${res}`)
+            //console.log(`res: ${res}`)
             if(res){
                 return true; 
             }
@@ -34,11 +35,30 @@ const Form = (props) => {
     //console.log(`isTitleValid: ${isTitleValid}`); 
     const isMeetsValid = checkMeetValid(fields["meets"]); 
     //console.log(`isMeetsValid: ${isMeetsValid}`); 
-    //handler function to handle form submission logic! 
-    const onSubmit = () => {
-
+    var termChar = null; 
+    if(term === "Fall"){
+        termChar = "F"; 
+    } else if(term === "Winter"){
+        termChar = "W";
+    } else {
+        termChar = "S"; 
     }
-
+    //make initial database hook call to get access to data updating function to modify the database at that specified loc
+    //passed as arg! 
+    const [updateData, res] = useDbUpdate(`/courses/${termChar}${number}`);
+    console.log("res: ", res) 
+    //handler function to handle form submission logic! Basically, when form is submitted, we want to overwrite the data
+    //with the latest up to date course field values! 
+    const onSubmit = (e) => {
+        //first, we want to override default behavior of browser => don't want refresh cause this will reset the state! 
+        e.preventDefault(); 
+        //then, we need to use updateData function to update w/ specified keys while leaving other unmentioned keys 
+        //mapped vals staying same! But, be careful and only submit if no form errors(all inputs are valid) and 
+        //the latest state value is distinct from the initial values => only then push the modification to DB! 
+        if(isTitleValid && isMeetsValid && (fields["meets"] !== meets || fields["title"] !== title)){
+            updateData({meets: fields["meets"], title: fields["title"]});
+        }
+    }
     //input change handler functions! 
     const handleCourseTitleChange = (e) => {
         setFields((prev) => {
@@ -63,6 +83,7 @@ const Form = (props) => {
                 {!isMeetsValid && "Please enter a valid time range consisting of days and start-end: ex. MWF 12:00-1:50"}
                 <br /> 
                 <button><Link to = "/">Cancel!</Link></button>
+                <button type="submit" onClick={onSubmit}>Submit</button>
         </form>
     ); 
 }
