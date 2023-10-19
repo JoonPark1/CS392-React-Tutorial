@@ -24,7 +24,7 @@ const Course = ({term, number, title, meets, isSelected, setSelected, hasTimeCon
         }
     }
     return (
-            <div style={{width: "18rem", height:"15vw", objectFit: "cover", backgroundColor: isSelected ? "yellow" : "white"}} className="card text-center m-1 p-2" onClick={handleClick}>
+            <div data-cy="course" style={{width: "18rem", height:"15vw", objectFit: "cover", backgroundColor: isSelected ? "yellow" : "white"}} className="card text-center m-1 p-2" onClick={handleClick}>
                 {user && isAdmin && <p> -- <Link to={`/form/${uniqueID}`}>{`Edit for ${term} CS ${number}`}</Link></p>}
                 {!isSelected && hasTimeConflict ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50%" y="50%" dominantBaseline="central" textAnchor="middle" fontSize="100">❌</text></svg> : null}
                 <h5  className="card-title">{`${term} CS ${number}`}</h5>
