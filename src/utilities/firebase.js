@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, onValue, ref, update} from "firebase/database";
+import { connectDatabaseEmulator, getDatabase, onValue, ref, update} from "firebase/database";
 import {useEffect, useState, useCallback} from "react"; 
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { connectAuthEmulator, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, signInWithCredential } from 'firebase/auth';
 
 //import { getDatabase, onValue, ref, update} from 'firebase/database';
 
@@ -17,10 +17,24 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-
+const auth = getAuth(app); 
 // Initialize Realtime Database and get a reference to the service
 const database = getDatabase(app);
+//if our environment mode is not production, then it's testing envrionment, where we have to use data 
+//from databse emulator! 
+console.log("mode: ", import.meta.env.MODE)
+if (!import.meta.env.MODE || import.meta.env.MODE === "development") {
+  console.log("currently not in production...")
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  connectDatabaseEmulator(database, "127.0.0.1", 9000);
+
+  signInWithCredential(auth, GoogleAuthProvider.credential(
+    '{"sub": "IqAxA5YpBZxGvvv4Fd4A4tHz93Ot", "email": "tester@gmail.com", "displayName":"Test User", "email_verified": true}'
+  ));
+}
+
+
+
 
 //helper to return useful info regarding the result of DB call! 
 const makeResult = (error) => {
@@ -82,3 +96,5 @@ export const useDbData = (path) => {
   
     return [user];
   };
+
+  
